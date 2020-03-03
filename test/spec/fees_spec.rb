@@ -9,14 +9,14 @@ describe Fees do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @customers=@openpay.create(:customers)
-    @cards=@openpay.create(:cards)
-    @charges=@openpay.create(:charges)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @customers=@varopago.create(:customers)
+    @cards=@varopago.create(:cards)
+    @charges=@varopago.create(:charges)
 
-    @bank_accounts=@openpay.create(:bankaccounts)
+    @bank_accounts=@varopago.create(:bankaccounts)
 
-    @fees=@openpay.create(:fees)
+    @fees=@varopago.create(:fees)
 
   end
 
@@ -120,7 +120,7 @@ describe Fees do
 
 
       #performs check
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
       expect(@fees.list(search_params).size).to eq 1
 

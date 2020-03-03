@@ -4,7 +4,7 @@ require_relative '../spec_helper'
 describe Bankaccounts do
 
   #bankaccounts for merchant cannot be created using the api
-  #the merchant bank account should be created using the Openpay dashboard
+  #the merchant bank account should be created using the Varopago dashboard
   before(:all) do
 
     @merchant_id='mywvupjjs9xdnryxtplq'
@@ -12,9 +12,9 @@ describe Bankaccounts do
 
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @bank_accounts=@openpay.create(:bankaccounts)
-    @customers=@openpay.create(:customers)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @bank_accounts=@varopago.create(:bankaccounts)
+    @customers=@varopago.create(:customers)
 
   end
 
@@ -95,7 +95,7 @@ describe Bankaccounts do
       bank=@bank_accounts.create(account_hash, customer['id'])
       expect(@bank_accounts.all(customer['id']).size).to be 1
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
 
       expect(@bank_accounts.all(customer['id']).size).to eq 1
@@ -125,7 +125,7 @@ describe Bankaccounts do
     end
 
     it 'fails to list all bank accounts when a non existing customer is given' do
-      expect { @bank_accounts.all('11111') }.to raise_exception(OpenpayTransactionException)
+      expect { @bank_accounts.all('11111') }.to raise_exception(VaropagoTransactionException)
     end
 
   end
@@ -148,7 +148,7 @@ describe Bankaccounts do
     end
 
     it 'fails to delete a non existing bank accounts' do
-      expect { @customers.delete('1111') }.to raise_exception OpenpayTransactionException
+      expect { @customers.delete('1111') }.to raise_exception VaropagoTransactionException
     end
 
   end
@@ -173,9 +173,9 @@ describe Bankaccounts do
     end
 
     it 'fails to deletes all bank accounts when used on PROD' do
-      @openpayprod=OpenpayApi.new(@merchant_id, @private_key, true)
-      bank_accounts=@openpayprod.create(:bankaccounts)
-      expect { bank_accounts.delete_all('111111') }.to raise_exception OpenpayException
+      @varopagoprod=VaropagoApi.new(@merchant_id, @private_key, true)
+      bank_accounts=@varopagoprod.create(:bankaccounts)
+      expect { bank_accounts.delete_all('111111') }.to raise_exception VaropagoException
     end
 
   end

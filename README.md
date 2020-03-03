@@ -1,27 +1,27 @@
-![Openpay Ruby](http://www.openpay.mx/img/github/ruby.jpg)
+![Varopago Ruby](http://www.varopago.mx/img/github/ruby.jpg)
 
-[![Build Status](https://travis-ci.org/open-pay/openpay-ruby.png?branch=master)](https://travis-ci.org/open-pay/openpay-ruby)
+[![Build Status](https://travis-ci.org/open-pay/varopago-ruby.png?branch=master)](https://travis-ci.org/open-pay/varopago-ruby)
 
-[![Gem Version](https://badge.fury.io/rb/openpay.svg)](http://badge.fury.io/rb/openpay)
+[![Gem Version](https://badge.fury.io/rb/varopago.svg)](http://badge.fury.io/rb/varopago)
 
 ## Description
 
-ruby client for *Openpay api* services (version 2.0)
+ruby client for *Varopago api* services (version 2.0)
 
-This is a ruby client implementing the payment services for *Openpay* at openpay.mx
+This is a ruby client implementing the payment services for *Varopago* at varopago.mx
 
-For more information about Openpay visit:
- - http://openpay.mx/
+For more information about Varopago visit:
+ - http://varopago.mx/
 
-For the full *Openpay api* documentation take a look at:
- - http://docs.openpay.mx/
+For the full *Varopago api* documentation take a look at:
+ - http://docs.varopago.mx/
 
 ## Installation
 
    Add the following line to your Gem file
 
-    #openpay gem
-     gem 'openpay'
+    #varopago gem
+     gem 'varopago'
 
 Update your bundle:
 
@@ -29,7 +29,7 @@ Update your bundle:
 
 Or install it from the command line:
 
-    $ gem install openpay
+    $ gem install varopago
 
 ### Requirements
 
@@ -40,7 +40,7 @@ Or install it from the command line:
 
 ### Initialization
 ```ruby
-require 'openpay'
+require 'varopago'
 
 
 #merchant and private key
@@ -48,39 +48,39 @@ merchant_id='mywvupjjs9xdnryxtplq'
 private_key='sk_92b25d3baec149e6b428d81abfe37006'
 
 
-#An openpay resource factory instance is created out of the OpenpayApi
+#An varopago resource factory instance is created out of the VaropagoApi
 #it  points to the development environment  by default.
-openpay=OpenpayApi.new(merchant_id,private_key)
+varopago=VaropagoApi.new(merchant_id,private_key)
 
 #To enable production mode you should pass a third argument as true.
-#openpay_prod=OpenpayApi.new(merchant_id,private_key,true)
+#varopago_prod=VaropagoApi.new(merchant_id,private_key,true)
 
 #This ruby client manages a default timeout of 90 seconds to make the request 
-#    to Openpay services, if you need to modify this value, you need to explicitly 
+#    to Varopago services, if you need to modify this value, you need to explicitly 
 #    define the type of environment and followed by the new value for the timeout.
 #Syntax:
-#   openpay_prod=OpenpayApi.new(merchant_id,private_key,isProduction,timeout)
+#   varopago_prod=VaropagoApi.new(merchant_id,private_key,isProduction,timeout)
 #Example:
-#   openpay_prod=OpenpayApi.new(merchant_id,private_key,false,30)
+#   varopago_prod=VaropagoApi.new(merchant_id,private_key,false,30)
  ```
 
-The openpay factory instance is in charge to generate the required resources through a factory method (create).
+The varopago factory instance is in charge to generate the required resources through a factory method (create).
 Resource classes should be initialized using the factory method as described below.
 
  ```ruby
 #creating an instance for each available resource
-bankaccounts=openpay.create(:bankaccounts)
-cards=openpay.create(:cards)
-charges=openpay.create(:charges)
-customers=openpay.create(:customers)
-fees=openpay.create(:fees)
-payouts=openpay.create(:payouts)
-plans=openpay.create(:plans)
-subscriptions=openpay.create(:subscriptions)
-transfers=openpay.create(:transfers)
+bankaccounts=varopago.create(:bankaccounts)
+cards=varopago.create(:cards)
+charges=varopago.create(:charges)
+customers=varopago.create(:customers)
+fees=varopago.create(:fees)
+payouts=varopago.create(:payouts)
+plans=varopago.create(:plans)
+subscriptions=varopago.create(:subscriptions)
+transfers=varopago.create(:transfers)
 ```
 
-According to the current version of the *Openpay api* the available resources are:
+According to the current version of the *Varopago api* the available resources are:
 
 - *bankaccounts*
 - *cards*
@@ -92,12 +92,12 @@ According to the current version of the *Openpay api* the available resources ar
 - *subscriptions*
 - *transfers*
 
-Each rest resource exposed in the rest *Openpay api* is represented by a class in this ruby API, being **OpenpayResource** the base class.
+Each rest resource exposed in the rest *Varopago api* is represented by a class in this ruby API, being **VaropagoResource** the base class.
 
 
 ### Implementation
  Each resource depending of its structure and available methods, will have one or more of the methods described under the methods subsection.
- Below a short description about the implementation high level details. For detailed documentation take a look a the openpay api documentation.
+ Below a short description about the implementation high level details. For detailed documentation take a look a the varopago api documentation.
 
 
 #### Arguments
@@ -209,7 +209,7 @@ FactoryBot.define do
 This ruby API standardize the method names across all different resources using the **create**,**get**,**update** and **delete** verbs.
 
 For full method documentation take a look at:
-  - http://docs.openpay.mx/
+  - http://docs.varopago.mx/
 
 The test suite at *test/spec* is a good source of reference.
 
@@ -261,7 +261,7 @@ open_pay_resource.each(customer_id=nil)
    Deletes all instances of the given resource
 
 ```ruby
-#in case this method is executed under the production environment an OpenpayException will be raised.
+#in case this method is executed under the production environment an VaropagoException will be raised.
 open_pay_resource.delete_all(customer_id=nil)
 ```
 
@@ -289,7 +289,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list merchant / customer bank accounts
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = bank_accounts.list(search_params)
@@ -331,7 +331,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list merchant / customer cards
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = cards.list(search_params)
@@ -391,7 +391,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list merchant / customer charges
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = charges.list(search_params)
@@ -463,7 +463,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list customers
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         customers_filtered_list = customers.list(search_params)
@@ -490,7 +490,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list customer fees
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = fees.list(search_params)
@@ -530,7 +530,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list merchant/customer payouts
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = payouts.list(search_params)
@@ -575,7 +575,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list merchant /customer plan
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         merchant_filtered_list = plans.list(search_params)
@@ -618,7 +618,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list customer subscriptions
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         customer_filtered_list = subscriptions.list(search_params, customer_id)
@@ -654,7 +654,7 @@ open_pay_resource.delete_all(customer_id=nil)
 
 - list customer transfers
 
-        search_params = OpenpayUtils::SearchParams.new
+        search_params = VaropagoUtils::SearchParams.new
         search_params.limit = 1
 
         customer_filtered_list = transfers.list(search_params, customer_id)
@@ -664,27 +664,27 @@ open_pay_resource.delete_all(customer_id=nil)
 
 This API generates 3 different Exception classes.
 
--  **OpenpayException**: Generic base API exception class, Generic API exceptions.
+-  **VaropagoException**: Generic base API exception class, Generic API exceptions.
 
      - Internal server error (500 Internal Server Error).
-     - OpenpayApi factory method, invalid resource name.
+     - VaropagoApi factory method, invalid resource name.
 
     Examples:
 
  ```ruby
   #production mode
-  openpay_prod=OpenpayApi.new(@merchant_id,@private_key,true)
-  customers=openpay_prod.create(:customers)
-  customers.delete_all # will raise an OpenpayException
+  varopago_prod=VaropagoApi.new(@merchant_id,@private_key,true)
+  customers=varopago_prod.create(:customers)
+  customers.delete_all # will raise an VaropagoException
  ```
 
   ```ruby
    #production mode
-   openpay_prod=OpenpayApi.new(@merchant_id,@private_key,true)
-   customers=openpay_prod.create(:non_existing_resource)    # will raise an OpenpayException
+   varopago_prod=VaropagoApi.new(@merchant_id,@private_key,true)
+   customers=varopago_prod.create(:non_existing_resource)    # will raise an VaropagoException
   ```
 
--  **OpenpayConnectionException**: Exception class for connection related issues, errors happening prior  the server connection.
+-  **VaropagoConnectionException**: Exception class for connection related issues, errors happening prior  the server connection.
 
      - Authentication Error (401 Unauthorized)
      - Connection Errors.
@@ -696,12 +696,12 @@ This API generates 3 different Exception classes.
      merchant_id='santa'
      private_key='invalid'
 
-     openpay=OpenpayApi.new(merchant_id, private_key)
-     customers=openpay.create(:customers)
+     varopago=VaropagoApi.new(merchant_id, private_key)
+     customers=varopago.create(:customers)
 
       begin
          customers.get('23444422211')
-      rescue OpenpayConnectionException => e
+      rescue VaropagoConnectionException => e
          e.http_code  #  => 401
          e.error_code # => 1002
          e.description# => 'The api key or merchant id are invalid.'
@@ -709,7 +709,7 @@ This API generates 3 different Exception classes.
        end
      ```
 
-- **OpenpayTransactionException**: Errors happening after the initial connection has been initiated, errors during transactions.
+- **VaropagoTransactionException**: Errors happening after the initial connection has been initiated, errors during transactions.
 
    - Bad Request (e.g. Malformed json,Invalid data)
    - Unprocessable Entity (e.g. invalid data)
@@ -725,7 +725,7 @@ email='foo'
 customer_hash = FactoryBot.build(:customer, email: email)
 begin
     customers.create(customer_hash)
-rescue OpenpayTransactionException => e
+rescue VaropagoTransactionException => e
     e.http_code# => 400
     e.error_code# => 1001
     e.description# => 'email\' not a well-formed email address'
@@ -738,7 +738,7 @@ end
 begin
   #non existing customer
   customers.delete('1111')
-rescue OpenpayApiTransactionError => e
+rescue VaropagoApiTransactionError => e
   e.http_code# => 404
   e.error_code# =>1005
   e.description# =>"The customer with id '1111' does not exist"
@@ -754,27 +754,27 @@ end
 - *json_message*
 
 For more information about categories, descriptions and codes take a look at:
-- http://docs.openpay.mx/#errores
+- http://docs.varopago.mx/#errores
 - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 
 
 ## Debug
 
-In the Openpay dashboard you are able to see every request and its corresponding request/response.
-    - https://sandbox-dashboard.openpay.mx
+In the Varopago dashboard you are able to see every request and its corresponding request/response.
+    - https://sandbox-dashboard.varopago.mx
 
 ## Developer Notes
 
 - bank accounts for merchant cannot be created using the api. It should be done through the dashboard.
 - Is recommended to reset your account using the dashboard when running serious testing (assure clean state)
-- check openpay_api.rb for Logger configuration
-- travis  https://travis-ci.org/open-pay/openpay-ruby , if a test fails it will leave some records, it may affect posterior tests.
+- check varopago_api.rb for Logger configuration
+- travis  https://travis-ci.org/open-pay/varopago-ruby , if a test fails it will leave some records, it may affect posterior tests.
    it is recommended to reset the console/account to assure a clean state after a failure occurs.
 
 ## More information
 For more use cases take a look at the *test/spec* folder
 
-  1.  http://docs.openpay.mx/
+  1.  http://docs.varopago.mx/
 
 
 

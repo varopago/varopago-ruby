@@ -45,7 +45,7 @@ class Charges < OpenPayResource
     amount = options.fetch(:amount)
 
     if amount.nil? or transaction_id.nil?
-      raise OpenpayException.new
+      raise VaropagoException.new
     end
 
     amount_hash = { amount: amount }

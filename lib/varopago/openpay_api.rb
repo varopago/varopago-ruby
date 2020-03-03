@@ -3,18 +3,18 @@ require 'base64'
 require 'rest-client'
 require 'uri'
 
-require 'openpay/open_pay_resource_factory'
-require 'errors/openpay_exception'
+require 'varopago/open_pay_resource_factory'
+require 'errors/varopago_exception'
 
 LOG= Logger.new(STDOUT)
 #change to Logger::DEBUG if need trace information
 #due the nature of the information, we recommend to never use a log file when in debug
 LOG.level=Logger::FATAL
 
-class OpenpayApi
+class VaropagoApi
   #API Endpoints
-  API_DEV='https://sandbox-api.openpay.mx/v1/'
-  API_PROD='https://api.openpay.mx/v1/'
+  API_DEV='https://sandbox-api.varopago.mx/v1/'
+  API_PROD='https://api.varopago.mx/v1/'
 
   #by default testing environment is used
   def initialize(merchant_id, private_key, production=false, timeout=90)
@@ -30,7 +30,7 @@ class OpenpayApi
     klass
   end
 
-  def OpenpayApi::base_url(production)
+  def VaropagoApi::base_url(production)
     if production
       API_PROD
     else

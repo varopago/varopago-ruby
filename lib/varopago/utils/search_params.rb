@@ -1,5 +1,5 @@
 require 'ostruct'
-module OpenpayUtils
+module VaropagoUtils
 
   class SearchParams < OpenStruct
 

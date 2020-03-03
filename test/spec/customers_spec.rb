@@ -9,8 +9,8 @@ describe Customers do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @customers=@openpay.create(:customers)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @customers=@varopago.create(:customers)
 
     @customers.delete_all
 
@@ -66,10 +66,10 @@ describe Customers do
       customer_hash = FactoryBot.build(:customer, email: email)
 
       #perform check
-      expect { @customers.create(customer_hash) }.to raise_exception OpenpayTransactionException
+      expect { @customers.create(customer_hash) }.to raise_exception VaropagoTransactionException
       begin
         @customers.create(customer_hash)
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         expect(e.http_code).to be 400
         expect(e.description).to match /'foo' is not a valid email address/
       end
@@ -89,7 +89,7 @@ describe Customers do
       #delete customer
       @customers.delete(id)
       #perform check
-      expect { @customers.get(id) }.to raise_exception OpenpayTransactionException
+      expect { @customers.get(id) }.to raise_exception VaropagoTransactionException
     end
 
   end
@@ -154,7 +154,7 @@ describe Customers do
       customer=@customers.create(customer_hash)
       id=customer['id']
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit=1
 
       #perform check
@@ -209,9 +209,9 @@ describe Customers do
 
     it 'raise an exception when used on Production' do
 
-      @openpayprod=OpenpayApi.new(@merchant_id, @private_key, true)
-      cust=@openpayprod.create(:customers)
-      expect { cust.delete_all }.to raise_exception OpenpayException
+      @varopagoprod=VaropagoApi.new(@merchant_id, @private_key, true)
+      cust=@varopagoprod.create(:customers)
+      expect { cust.delete_all }.to raise_exception VaropagoException
 
     end
 

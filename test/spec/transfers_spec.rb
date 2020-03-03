@@ -9,13 +9,13 @@ describe Transfers do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @customers=@openpay.create(:customers)
-    @cards=@openpay.create(:cards)
-    @charges=@openpay.create(:charges)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @customers=@varopago.create(:customers)
+    @cards=@varopago.create(:cards)
+    @charges=@varopago.create(:charges)
 
-    @bank_accounts=@openpay.create(:bankaccounts)
-    @transfers=@openpay.create(:transfers)
+    @bank_accounts=@varopago.create(:bankaccounts)
+    @transfers=@varopago.create(:transfers)
 
   end
 
@@ -96,7 +96,7 @@ describe Transfers do
     end
 
     it 'fails to get a non existing transfer' do
-      expect {   @transfers.get(11111,11111)  }.to raise_exception    OpenpayTransactionException
+      expect {   @transfers.get(11111,11111)  }.to raise_exception    VaropagoTransactionException
     end
 
   end
@@ -168,7 +168,7 @@ describe Transfers do
       @transfers.all(customer2['id'])
       expect(@transfers.all(customer2['id']).size ).to be 2
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
       expect(@transfers.list(search_params,customer['id']).size).to eq 1
 

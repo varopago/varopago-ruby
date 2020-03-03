@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'Openpay Exceptions' do
+describe 'Varopago Exceptions' do
 
   before(:all) do
 
@@ -9,27 +9,27 @@ describe 'Openpay Exceptions' do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @customers=@openpay.create(:customers)
-    @cards=@openpay.create(:cards)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @customers=@varopago.create(:customers)
+    @cards=@varopago.create(:cards)
 
   end
 
-  describe OpenpayException do
+  describe VaropagoException do
 
-    it 'should raise an OpenpayException when a non given resource is passed to the api factory' do
-     expect { @openpay.create(:foo) }.to raise_exception OpenpayException
+    it 'should raise an VaropagoException when a non given resource is passed to the api factory' do
+     expect { @varopago.create(:foo) }.to raise_exception VaropagoException
     end
 
-    it 'should raise an OpenpayException when the delete_all method is used on production' do
-      @openpayprod=OpenpayApi.new(@merchant_id,@private_key,true)
-      cust=@openpayprod.create(:customers)
-      expect { cust.delete_all }.to raise_exception OpenpayException
+    it 'should raise an VaropagoException when the delete_all method is used on production' do
+      @varopagoprod=VaropagoApi.new(@merchant_id,@private_key,true)
+      cust=@varopagoprod.create(:customers)
+      expect { cust.delete_all }.to raise_exception VaropagoException
     end
 
   end
 
-  describe OpenpayTransactionException do
+  describe VaropagoTransactionException do
 
     it 'should fail when an invalid field-value is passed in *email' do
       #invalid email format
@@ -37,10 +37,10 @@ describe 'Openpay Exceptions' do
       customer_hash = FactoryBot.build(:customer, email: email)
 
       #perform checks
-      expect { @customers.create(customer_hash) }.to raise_exception OpenpayTransactionException
+      expect { @customers.create(customer_hash) }.to raise_exception VaropagoTransactionException
       begin
         @customers.create(customer_hash)
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         #should have the corresponding attributes coming from the json message
         expect(e.http_code).to be 400
         expect(e.error_code).to be 1001
@@ -49,13 +49,13 @@ describe 'Openpay Exceptions' do
       end
     end
 
-    it ' raise  an OpenpayTransactionException when trying to delete a non existing bank account '  do
+    it ' raise  an VaropagoTransactionException when trying to delete a non existing bank account '  do
       #non existing resource
       #perform checks
-      expect { @customers.delete('1111') }.to raise_exception  OpenpayTransactionException
+      expect { @customers.delete('1111') }.to raise_exception  VaropagoTransactionException
       begin
         @customers.delete('1111')
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         #should have the corresponding attributes coming from the json message
         expect(e.http_code).to be 404
         expect(e.error_code).to be 1005
@@ -64,12 +64,12 @@ describe 'Openpay Exceptions' do
       end
     end
 
-    it 'raise  an OpenpayTransactionException when using an expired card' do
+    it 'raise  an VaropagoTransactionException when using an expired card' do
       card_hash = FactoryBot.build(:expired_card)
-      expect { @cards.create(card_hash) }.to raise_error(OpenpayTransactionException)
+      expect { @cards.create(card_hash) }.to raise_error(VaropagoTransactionException)
       begin
         @cards.create(card_hash)
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         expect(e.description).to match 'The card has expired'
         expect(e.error_code).to be 3002
       end
@@ -78,20 +78,20 @@ describe 'Openpay Exceptions' do
 
   end
 
-  describe OpenpayConnectionException do
+  describe VaropagoConnectionException do
 
-    it 'raise an OpenpayConnectionException when provided credentials are invalid' do
+    it 'raise an VaropagoConnectionException when provided credentials are invalid' do
 
       merchant_id='santa'
       private_key='invalid'
 
-      openpay=OpenpayApi.new(merchant_id, private_key)
-      customers=openpay.create(:customers)
-      expect { customers.delete('1111') }.to raise_exception  OpenpayConnectionException
+      varopago=VaropagoApi.new(merchant_id, private_key)
+      customers=varopago.create(:customers)
+      expect { customers.delete('1111') }.to raise_exception  VaropagoConnectionException
 
       begin
         customers.delete('1111')
-      rescue OpenpayConnectionException => e
+      rescue VaropagoConnectionException => e
         #should have the corresponding attributes coming from the json message
         expect(e.http_code).to be 401
         expect(e.error_code).to be 1002

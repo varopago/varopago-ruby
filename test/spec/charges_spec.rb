@@ -7,14 +7,14 @@ describe Charges do
     @merchant_id='mywvupjjs9xdnryxtplq'
     @private_key='sk_92b25d3baec149e6b428d81abfe37006'
 
-    @openpay=OpenpayApi.new(@merchant_id,@private_key)
-    @customers=@openpay.create(:customers)
+    @varopago=VaropagoApi.new(@merchant_id,@private_key)
+    @customers=@varopago.create(:customers)
     
     #LOG.level=Logger::DEBUG
 
-    @charges=@openpay.create(:charges)
-    @cards=@openpay.create(:cards)
-    @bank_accounts=@openpay.create(:bankaccounts)
+    @charges=@varopago.create(:charges)
+    @cards=@varopago.create(:cards)
+    @bank_accounts=@varopago.create(:bankaccounts)
 
     @cards.delete_all
 
@@ -317,7 +317,7 @@ describe Charges do
       charge2=@charges.create(charge_hash,customer['id'])
 
       #perform check
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
       expect(@charges.all(customer['id']).size).to eq 2
       expect(@charges.list(search_params,customer['id']).size).to eq 1

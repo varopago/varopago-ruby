@@ -10,13 +10,13 @@ describe 'Request timeout exception' do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key, false, 0)
-    @charges=@openpay.create(:charges)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key, false, 0)
+    @charges=@varopago.create(:charges)
 
   end
 
-  it 'raise an OpenpayConnectionException when the operation timeouts' do
-    expect{@charges.all}.to raise_error(OpenpayConnectionException)
+  it 'raise an VaropagoConnectionException when the operation timeouts' do
+    expect{@charges.all}.to raise_error(VaropagoConnectionException)
   end
 
 end

@@ -1,4 +1,4 @@
-class OpenpayException < StandardError
+class VaropagoException < StandardError
 
   attr_reader :description
   attr_reader :http_code
@@ -8,7 +8,7 @@ class OpenpayException < StandardError
   attr_reader :category
 
   def initialize(message=nil,json_message=true)
-  #openpay errors  have a json error string
+  #varopago errors  have a json error string
    if json_message
       json= JSON.parse message
       @description = json['description']

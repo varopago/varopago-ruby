@@ -1,4 +1,4 @@
-Copyright 2014   Openpay SAPI de C.V.
+Copyright 2014   Varopago SAPI de C.V.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

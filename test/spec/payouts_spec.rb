@@ -9,16 +9,16 @@ describe Payouts do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @payouts=@openpay.create(:payouts)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @payouts=@varopago.create(:payouts)
 
-    @customers=@openpay.create(:customers)
-    @cards=@openpay.create(:cards)
-    @charges=@openpay.create(:charges)
+    @customers=@varopago.create(:customers)
+    @cards=@varopago.create(:cards)
+    @charges=@varopago.create(:charges)
 
-    @bank_accounts=@openpay.create(:bankaccounts)
+    @bank_accounts=@varopago.create(:bankaccounts)
 
-    @fees=@openpay.create(:fees)
+    @fees=@varopago.create(:fees)
 
   end
 
@@ -198,7 +198,7 @@ describe Payouts do
       payout1=@payouts.create(payout_hash, customer['id'])
       payout2=@payouts.create(payout_hash, customer['id'])
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
 
       expect(@payouts.all(customer['id']).size).to eq 2

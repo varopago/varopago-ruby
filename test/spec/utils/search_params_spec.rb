@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
-include OpenpayUtils
+include VaropagoUtils
 
-describe OpenpayUtils do
+describe VaropagoUtils do
 
   describe SearchParams do
 

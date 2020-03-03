@@ -5,6 +5,6 @@ gem 'rspec-expectations'
 gem 'factory_bot', '4.8.2'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 
-# Specify your gem's dependencies in Openpay.gemspec
+# Specify your gem's dependencies in Varopago.gemspec
 gemspec
 

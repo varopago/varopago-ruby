@@ -13,9 +13,9 @@ describe Cards do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @cards=@openpay.create(:cards)
-    @customers=@openpay.create(:customers)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @cards=@varopago.create(:cards)
+    @customers=@varopago.create(:customers)
 
     @cards.delete_all
 
@@ -57,7 +57,7 @@ describe Cards do
 
       #creates a customer
       card_hash = FactoryBot.build(:valid_card, holder_name: 'Pepe')
-      customers=@openpay.create(:customers)
+      customers=@varopago.create(:customers)
       customer_hash = FactoryBot.build(:customer)
       customer=customers.create(customer_hash)
 
@@ -101,7 +101,7 @@ describe Cards do
 
       #creates a customer
       card_hash = FactoryBot.build(:valid_card, holder_name: 'Pepe')
-      customers=@openpay.create(:customers)
+      customers=@varopago.create(:customers)
       customer_hash = FactoryBot.build(:customer)
       customer=customers.create(customer_hash)
 
@@ -118,11 +118,11 @@ describe Cards do
     it 'fails when using an expired card' do
       card_hash = FactoryBot.build(:expired_card)
       #check
-      expect { @cards.create(card_hash) }.to raise_error(OpenpayTransactionException)
+      expect { @cards.create(card_hash) }.to raise_error(VaropagoTransactionException)
       #extended check
       begin
         @cards.create(card_hash)
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         expect(e.description).to match 'The card has expired'
         expect(e.error_code).to be 3002
       end
@@ -131,7 +131,7 @@ describe Cards do
 
     it 'fails when using a stolen card' do
       card_json = FactoryBot.build(:valid_card, card_number: '4000000000000119')
-      expect { @cards.create(card_json) }.to raise_error(OpenpayTransactionException)
+      expect { @cards.create(card_json) }.to raise_error(VaropagoTransactionException)
     end
 
   end
@@ -148,7 +148,7 @@ describe Cards do
 
       #creates a customer
       card_hash = FactoryBot.build(:valid_card, holder_name: 'Pepe')
-      customers=@openpay.create(:customers)
+      customers=@varopago.create(:customers)
       customer_hash = FactoryBot.build(:customer)
       customer=customers.create(customer_hash)
 
@@ -182,18 +182,18 @@ describe Cards do
 
       #perform check
       card=@cards.delete(id)
-      expect { @cards.get(id) }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.get(id) }.to raise_exception(VaropagoTransactionException)
 
     end
 
     it 'fails to deletes a non existing card' do
-      expect { @cards.delete('1111111') }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.delete('1111111') }.to raise_exception(VaropagoTransactionException)
     end
 
     it 'deletes a customer card' do
 
       #create customer
-      customers=@openpay.create(:customers)
+      customers=@varopago.create(:customers)
       customer_hash = FactoryBot.build(:customer, name: 'Juan', last_name: 'Paez')
       customer=customers.create(customer_hash)
 
@@ -205,12 +205,12 @@ describe Cards do
       @cards.delete(card['id'], customer['id'])
 
       #perform check
-      expect { @cards.get(card['id'], customer['id']) }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.get(card['id'], customer['id']) }.to raise_exception(VaropagoTransactionException)
 
     end
 
     it 'fails to deletes a non existing  customer card' do
-      expect { @cards.delete('1111111', '1111') }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.delete('1111111', '1111') }.to raise_exception(VaropagoTransactionException)
     end
 
   end
@@ -237,7 +237,7 @@ describe Cards do
     end
 
     it 'fails when getting a non existing card' do
-      expect { @cards.get('11111') }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.get('11111') }.to raise_exception(VaropagoTransactionException)
     end
 
     it ' gets an existing customer card' do
@@ -265,7 +265,7 @@ describe Cards do
     end
 
     it 'fails when getting a non existing customer card' do
-      expect { @cards.get('11111', '1111') }.to raise_exception(OpenpayTransactionException)
+      expect { @cards.get('11111', '1111') }.to raise_exception(VaropagoTransactionException)
     end
 
   end
@@ -313,7 +313,7 @@ describe Cards do
     end
 
     it 'cards for a non existing  customer' do
-      expect { @cards.all('111111') }.to raise_exception OpenpayTransactionException
+      expect { @cards.all('111111') }.to raise_exception VaropagoTransactionException
     end
 
   end
@@ -329,7 +329,7 @@ describe Cards do
       card_hash = FactoryBot.build(:valid_card2)
       card2 = @cards.create(card_hash)
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
       expect(@cards.list(search_params).size).to eq 1
       @cards.delete_all
@@ -353,7 +353,7 @@ describe Cards do
       card = @cards.create(card_hash, customer['id'])
       id = card['id']
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
 
       expect(@cards.all(customer['id']).size).to eq 2
@@ -370,8 +370,8 @@ describe Cards do
 
     it 'raise an exception when used on Production' do
 
-      openpayprod=OpenpayApi.new(@merchant_id, @private_key, true)
-      cust=openpayprod.create(:customers)
+      varopagoprod=VaropagoApi.new(@merchant_id, @private_key, true)
+      cust=varopagoprod.create(:customers)
       expect { cust.delete_all }.to raise_error
 
     end

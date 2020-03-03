@@ -1,6 +1,6 @@
-class OpenpayExceptionFactory
+class VaropagoExceptionFactory
 
-  def OpenpayExceptionFactory::create(exception)
+  def VaropagoExceptionFactory::create(exception)
 
     LOG.warn("An exception has been raised (original exception class: #{exception.class})")
 
@@ -12,8 +12,8 @@ class OpenpayExceptionFactory
           RestClient::Conflict, RestClient::PaymentRequired,
           RestClient::UnprocessableEntity
 
-        oe=OpenpayTransactionException.new exception.http_body
-        LOG.warn "-OpenpayTransactionException: #{exception.http_body}"
+        oe=VaropagoTransactionException.new exception.http_body
+        LOG.warn "-VaropagoTransactionException: #{exception.http_body}"
         @errors=true
         raise oe
 
@@ -22,7 +22,7 @@ class OpenpayExceptionFactory
         #since this exceptions are not based on the rest api exceptions
         #we do not have the json message so we just build the exception
         #with the original exception message set in e.description and e.message
-        oe=OpenpayConnectionException.new(exception.message,false)
+        oe=VaropagoConnectionException.new(exception.message,false)
         LOG.warn exception.message
         @errors=true
         raise oe
@@ -30,9 +30,9 @@ class OpenpayExceptionFactory
       when  RestClient::BadGateway, RestClient::Unauthorized, RestClient::RequestTimeout
             LOG.warn exception
             if exception.http_body
-              oe=OpenpayConnectionException.new exception.http_body
+              oe=VaropagoConnectionException.new exception.http_body
             else
-              oe=OpenpayConnectionException.new(exception.message, false)
+              oe=VaropagoConnectionException.new(exception.message, false)
             end
             @errors=true
             raise oe
@@ -40,9 +40,9 @@ class OpenpayExceptionFactory
       when  RestClient::Exception , RestClient::InternalServerError
             LOG.warn exception
             if exception.http_body
-              oe=OpenpayException.new exception.http_body
+              oe=VaropagoException.new exception.http_body
             else
-              oe=OpenpayException.new(exception.message, false)
+              oe=VaropagoException.new(exception.message, false)
             end
             @errors=true
             raise oe

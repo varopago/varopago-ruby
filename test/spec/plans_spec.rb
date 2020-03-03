@@ -9,10 +9,10 @@ describe Plans do
     
     #LOG.level=Logger::DEBUG
 
-    @openpay=OpenpayApi.new(@merchant_id, @private_key)
-    @customers=@openpay.create(:customers)
-    @plans=@openpay.create(:plans)
-    @subscriptions=@openpay.create(:subscriptions)
+    @varopago=VaropagoApi.new(@merchant_id, @private_key)
+    @customers=@varopago.create(:customers)
+    @plans=@varopago.create(:plans)
+    @subscriptions=@varopago.create(:subscriptions)
 
   end
 
@@ -67,10 +67,10 @@ describe Plans do
 
     it 'fails to get a non existing customer plan' do
       #validates
-      expect { @plans.get('111111') }.to raise_exception OpenpayTransactionException
+      expect { @plans.get('111111') }.to raise_exception VaropagoTransactionException
       begin
         @plans.get('111111')
-      rescue OpenpayTransactionException => e
+      rescue VaropagoTransactionException => e
         expect(e.description).to match 'The requested resource doesn\'t exist'
       end
 
@@ -90,7 +90,7 @@ describe Plans do
       plan_hash= FactoryBot.build(:plan, repeat_every: 5, amount: 500)
       plan=@plans.create(plan_hash)
 
-      search_params = OpenpayUtils::SearchParams.new
+      search_params = VaropagoUtils::SearchParams.new
       search_params.limit = 1
       expect(@plans.list(search_params).size).to eq 1
 

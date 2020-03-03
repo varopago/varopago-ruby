@@ -1,4 +1,4 @@
-#This class is the abstract base class for other Openpay resources
+#This class is the abstract base class for other Varopago resources
 #This class defines the basic rest verbs making use of the rest-api gem.
 #Method aliases are created to provide friendly names.
 class OpenPayResource
@@ -9,7 +9,7 @@ class OpenPayResource
     @merchant_id=merchant_id
     @private_key=private_key
     #assigns base url depending the requested env
-    @base_url=OpenpayApi::base_url(production)
+    @base_url=VaropagoApi::base_url(production)
     @errors=false
     @production=production
     @timeout=timeout
@@ -44,7 +44,7 @@ class OpenPayResource
   def delete_all
 
     if env == :production
-      raise OpenpayException.new('delete_all method cannot be used on production', false)
+      raise VaropagoException.new('delete_all method cannot be used on production', false)
     end
 
     each do |res|
@@ -72,7 +72,7 @@ class OpenPayResource
         :ssl_version => :TLSv1_2,
         :headers => {:accept => :json,
                      :content_type => :json,
-                     :user_agent => 'Openpay/v1  Ruby-API',
+                     :user_agent => 'Varopago/v1  Ruby-API',
         }
     )
     json_out=nil
@@ -82,7 +82,7 @@ class OpenPayResource
     rescue Exception => e
       @errors=true
       #will raise the appropriate exception and return
-      OpenpayExceptionFactory::create(e)
+      VaropagoExceptionFactory::create(e)
     end
 
     JSON[json_out]
@@ -105,7 +105,7 @@ class OpenPayResource
         :ssl_version => :TLSv1_2,
         :headers => {:accept => :json,
                      :content_type => :json,
-                     :user_agent => 'Openpay/v1  Ruby-API',
+                     :user_agent => 'Varopago/v1  Ruby-API',
         }
     )
 
@@ -115,7 +115,7 @@ class OpenPayResource
     rescue Exception => e
       @errors=true
       #will raise the appropriate exception and return
-      OpenpayExceptionFactory::create(e)
+      VaropagoExceptionFactory::create(e)
     end
     #returns a hash
     JSON[res] if not res.empty?
@@ -148,7 +148,7 @@ class OpenPayResource
           :payload => json,
           :headers => {:accept => :json,
                        :content_type => :json,
-                       :user_agent => 'Openpay/v1  Ruby-API',
+                       :user_agent => 'Varopago/v1  Ruby-API',
                        :json => json}
       ).execute
 
@@ -156,7 +156,7 @@ class OpenPayResource
     rescue Exception => e
       @errors=true
       #will raise the appropriate exception and return
-      OpenpayExceptionFactory::create(e)
+      VaropagoExceptionFactory::create(e)
     end
 
     #return
@@ -193,7 +193,7 @@ class OpenPayResource
           :payload => json,
           :headers => {:accept => :json,
                        :content_type => :json,
-                       :user_agent => 'Openpay/v1  Ruby-API',
+                       :user_agent => 'Varopago/v1  Ruby-API',
                        :json => json}
       ).execute
     rescue RestClient::BadRequest => e

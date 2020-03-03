@@ -1,8 +1,8 @@
 $: << '.'
 $: << 'lib'
-$: << 'lib/openpay'
+$: << 'lib/varopago'
 
-require 'openpay'
+require 'varopago'
 require 'factory_bot'
 #uncomment below to test on travis-ci
 FactoryBot.find_definitions
